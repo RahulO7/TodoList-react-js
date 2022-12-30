@@ -1,6 +1,8 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+// import { FaBeer } from 'react-icons/fa';
+// import { MdClear,MdAdd } from "react-icons/md";
 
 const getLocalData = () => {
   let localData = localStorage.getItem("lists");
@@ -19,7 +21,9 @@ function App() {
   const [editId, setEditId] = useState(null);
 
   const [items, setItems] = useState(getLocalData());
-  // const [itemDisc, setItemsDisc] = useState([]);
+
+  const [coll, setColl] = useState(false);
+  
 
   // const enterName = (e) => {
   //   setInput(e.target.value);
@@ -27,15 +31,19 @@ function App() {
   const submit = () => {
     if (!input && !Discription) {
       alert("Please enter data");
-    } else if (input && !editToggle) {
+    }
+     else if (input && !editToggle) {
       setItems(
         items.map((elem) => {
           if (elem.id === editId) {
             return { ...elem, title: input, discription: Discription };
           }
           return elem;
+          
         })
+        
       );
+      setColl(false)
       setEditToggle(true);
       setInput("");
       setDiscription("");
@@ -51,6 +59,7 @@ function App() {
       setItems([...items, allInputData]);
       setInput("");
       setDiscription("");
+      setColl(false)
     }
   };
   const deleteItem = (id) => {
@@ -70,6 +79,7 @@ function App() {
     setDiscription(editItemData.discription);
 
     setEditId(id);
+    setColl(true)
   };
   // const statusbtn =()=>{
   //   setStatus(true);
@@ -79,16 +89,28 @@ function App() {
     localStorage.setItem("lists", JSON.stringify(items));
   }, [items]);
 
+
+  const expendAddnote =()=>{
+    setColl(true)
+
+
+  }
+  const collAddnote =()=>{
+    setColl(false)
+
+
+  }
+
   return (
     <Container>
-      <div className="input">
+      <div className={coll?"input":"uncoll"}>
         <input
           type="text"
           placeholder="Title"
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
-        <input
+        <textarea style={{width:'200px'}}
           type="textarea"
           placeholder="Enter discription"
           value={Discription}
@@ -127,7 +149,7 @@ function App() {
         {items.map((item) => {
           return (
             <div className="data-container" key={item.id}>
-              <p>Id:-{item.id}</p>
+              {/* <p>Id:-{item.id}</p> */}
               <h1>Title:-{item.title}</h1>
               <p>Discription:-{item.discription}</p>
               <button onClick={() => deleteItem(item.id)} className="dltbtn">
@@ -141,6 +163,10 @@ function App() {
           );
         })}
       </div>
+      {coll?<button className="collapse" onClick={collAddnote}> <span className="sc1"></span> <span className="sc2"></span></button>:<button className="collapse" onClick={expendAddnote}><span className="s1"></span> <span></span></button>
+
+      }
+      
     </Container>
   );
 }
@@ -150,18 +176,86 @@ export default App;
 const Container = styled.section`
   width: 100vw;
   height: auto;
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
 
   /* .input{
   text-align: center;
 } */
+.uncoll{
+  display: none;
+}
+.collapse{
+  position: fixed;
+ 
+
+  z-index: 99;
+  bottom: 20px;
+  right: 20px;
+  border: none;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: -2px -2px 2px 2px  green;
+
+
+
+  span{
+    width: 50%;
+    height: 4px;
+    background-color: green;
+
+
+  }
+  .s1{
+    transform: rotate(90deg);
+   transition: transform 1s ease;
+  }
+  .sc1{
+    transform:rotate(45deg);
+    background-color: red;
+  }
+  .sc2{
+    transform:rotate(-45deg);
+    background-color: red;
+  }
+  
+  
+}
 
   .input {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 25vh;
+    border-radius: 20px;
+    padding:20px;
+    position: fixed;
+    bottom: 50px;
+    right: 30px;
+    transform: translateY(-100px);
+    animation: cani 1s ease 1;
+
+    z-index: 99;
+   
+    background-color: white;
+    box-shadow: -2px -2px 5px 5px #ced1cd;
+
+
+    @keyframes cani {
+      from{transform: translateY(0px);}
+      to{transform: translateY(-100px);}
+      
+    }
+
 
     input {
       padding: 10px;
@@ -177,14 +271,23 @@ const Container = styled.section`
     /* padding: 20px; */
     align-items: center;
     justify-content: flex-start;
+
     .data-container {
       margin: 10px;
-      border: 2px solid;
-      padding: 5px;
+    
+      padding: 10px;
       border-radius: 10px;
-      min-width: 250px;
-      min-height: 250px;
+      width: 250px;
+      height: 250px;
       position: relative;
+      box-shadow: -2px -2px 5px 5px #ced1cd;
+     
+
+      p{
+        max-width: 90%;
+        height: 90%;
+        
+      }
 
       .dltbtn {
         position: absolute;
