@@ -1,6 +1,7 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import Navbar from "./pages/Navbar";
 // import { FaBeer } from 'react-icons/fa';
 // import { MdClear,MdAdd } from "react-icons/md";
 
@@ -102,6 +103,8 @@ function App() {
   }
 
   return (
+    <>
+    <Navbar/>
     <Container>
       <div className={coll?"input":"uncoll"}>
         <input
@@ -168,6 +171,7 @@ function App() {
       }
       
     </Container>
+    </>
   );
 }
 
@@ -176,9 +180,9 @@ export default App;
 const Container = styled.section`
   width: 100vw;
   height: auto;
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: flex;
+  /* flex-direction: column; */
+  /* justify-content: center;
   align-items: center; */
 
   /* .input{
@@ -203,13 +207,15 @@ const Container = styled.section`
   flex-direction: column;
   justify-content: center;
   cursor: pointer;
-  box-shadow: -2px -2px 2px 2px  green;
+  box-shadow: 2px 2px  #ced1cd;
+ 
 
 
 
   span{
     width: 50%;
-    height: 4px;
+    border-radius: 1px;
+    height: 2px;
     background-color: green;
 
 
@@ -270,7 +276,7 @@ const Container = styled.section`
     flex-wrap: wrap;
     /* padding: 20px; */
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
 
     .data-container {
       margin: 10px;
