@@ -16,7 +16,7 @@ const getLocalData = () => {
 
 function App() {
   const [input, setInput] = useState("");
-  // const [status, setStatus] = useState(false);
+  const [ndadd, setndAdd] = useState(true);
   const [Discription, setDiscription] = useState("");
   const [editToggle, setEditToggle] = useState(true);
   const [editId, setEditId] = useState(null);
@@ -93,11 +93,13 @@ function App() {
 
   const expendAddnote =()=>{
     setColl(true)
+    setndAdd(false)
 
 
   }
   const collAddnote =()=>{
     setColl(false)
+    setndAdd(true)
 
 
   }
@@ -149,7 +151,7 @@ function App() {
       </div>
 
       <div className="data">
-        {items.map((item) => {
+{items.length !== 0?items.map((item) => {
           return (
             <div className="data-container" key={item.id}>
               {/* <p>Id:-{item.id}</p> */}
@@ -164,7 +166,13 @@ function App() {
               {/* <button onClick={statusbtn} key={index}>Done</button> */}
             </div>
           );
-        })}
+        }):<div className="nodata"><p>You Don't Take any Notes Plese Add Note To List</p> 
+        {ndadd?
+          <Ndbutton onClick={expendAddnote}>Add Note</Ndbutton>:<p></p>
+        }
+        </div> }
+        
+       
       </div>
       {coll?<button className="collapse" onClick={collAddnote}> <span className="sc1"></span> <span className="sc2"></span></button>:<button className="collapse" onClick={expendAddnote}><span className="s1"></span> <span></span></button>
 
@@ -326,4 +334,10 @@ const Container = styled.section`
       }
     }
   }
+`;
+
+const Ndbutton = styled.button`
+width: 50px;
+height: 50px;
+background-color: aliceblue;
 `;
